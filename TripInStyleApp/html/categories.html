@@ -1,0 +1,9 @@
+<div class="title">Choose Your Interests</div>
+<ul class="categories">
+    <li *ngFor="let category of categoriesMenu" (click)="addAtMyCategory(category)" [class.selected]="category.selected">
+        <img src="{{category.imgUrl}}"><span><span>{{category.title}}</span></span>
+    </li>
+</ul>
+<template [ngIf]="choosenCategories > 0">
+    <button class="next" (click)="getEventsOfSelectedCategories()">NEXT</button>
+</template>
