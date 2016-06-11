@@ -20,10 +20,18 @@ app.use(function(req,res,next){
 app.get('/getAllCategories',TISController.getCategories);
 app.get('/getAllEvents',TISController.getAllEvents);
 app.post('/getEventsByCategory',function(req,res)
-	{
-		var cat = req.body.category.split(",");
-		TISController.getEventsByCategory(req,res,cat);
-	});
+{
+	var cat = req.body.category.split(",");
+	TISController.getEventsByCategory(req,res,cat);
+});
+app.post('/getAllStates',TISController.getAllStates);
 
+app.post('/getEventsByState',function(req,res)
+{
+	var cat = req.body.category.split(",");
+	var state = req.body.state.toLowerCase();
+	TISController.getEventsByState(req,res,cat,state);
+});
+	
 app.listen(port);
 console.log("listening on port "+port);
