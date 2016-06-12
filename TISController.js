@@ -37,7 +37,15 @@ exports.getAllStates = function(req,res)
 exports.getEventsByCategory = function(req,res,cat)
 {
 	console.log("Get categories "+cat );
-	var categoryArray = ArrayToLowerCase(cat);
+	try
+	{
+		var categoryArray = ArrayToLowerCase(cat);
+	}
+	catch(err)
+	{
+		res.json({"error":"Unable to parse categories using request format"});
+		return;
+	}
 	Event.find({'category':{$in :categoryArray}}).
 	exec(function(err,docs){
 		res.json(docs);
@@ -48,7 +56,15 @@ exports.getEventsByCategory = function(req,res,cat)
 
 exports.getEventsByState = function(req,res,cat,state)
 {
-	var categoryArray = ArrayToLowerCase(cat);
+	try
+	{
+		var categoryArray = ArrayToLowerCase(cat);
+	}
+	catch(err)
+	{
+		res.json({"error":"Unable to parse categories using request format"});
+		return;
+	}
 	console.log("Get events from state " +state + " catergories: "+categoryArray );
 	Event.find({
 		'state': state,

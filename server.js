@@ -19,12 +19,13 @@ app.use(function(req,res,next){
 
 app.get('/getAllCategories',TISController.getCategories);
 app.get('/getAllEvents',TISController.getAllEvents);
+app.get('/getAllStates',TISController.getAllStates);
+
 app.post('/getEventsByCategory',function(req,res)
 {
 	var cat = req.body.category.split(",");
 	TISController.getEventsByCategory(req,res,cat);
 });
-app.post('/getAllStates',TISController.getAllStates);
 
 app.post('/getEventsByState',function(req,res)
 {
