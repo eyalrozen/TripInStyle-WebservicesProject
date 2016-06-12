@@ -1,9 +1,12 @@
 # TripInStyle-WebservicesProject
 Webservices project
 
-GET methods:
+###GET methods:
+
 URL:
+
 https://tripinstyle2016.herokuapp.com/getAllCategories //Returns all Categories
+
 Response sample:
 ```
 [
@@ -34,8 +37,45 @@ Response sample:
   }
 ]
 ```
+URL:
+
+https://tripinstyle2016.herokuapp.com/getAllStates //Returns all States in db
+
+Response sample:
+
+```
+[
+  {
+    "_id": "575bdaebdcba0f71fd3fc1eb",
+    "name": "United State",
+    "image": "images/state/US.png"
+  },
+  {
+    "_id": "575bdb70dcba0f71fd3fc1fe",
+    "name": "United Kingdom",
+    "image": "images/state/UnitedKingdom.png"
+  },
+  {
+    "_id": "575bdb7cdcba0f71fd3fc204",
+    "name": "Israel",
+    "image": "images/state/Israel.png"
+  },
+  {
+    "_id": "575bdb88dcba0f71fd3fc20e",
+    "name": "France",
+    "image": "images/state/France.png"
+  },
+  {
+    "_id": "575bdb95dcba0f71fd3fc212",
+    "name": "Germany",
+    "image": "images/state/Germany.png"
+  }
+]
+```
+URL:
 
 https://tripinstyle2016.herokuapp.com/getAllEvents // Returns all events in db
+
 Response sample:
 ```
 [
@@ -71,11 +111,16 @@ Response sample:
 ]
 ```
 
-POST METHODS:
+### POST METHODS:
+
 URL:
+
 https://tripinstyle2016.herokuapp.com/getEventsByCategory //Get events by category
+
 Params:
+
 Key:"category" ,Value:"festivals,shows"
+
 Response sample:
 ```
 [
@@ -111,10 +156,14 @@ Response sample:
 ```
 
 URL:
+
 https://tripinstyle2016.herokuapp.com/getEventsByState    //Return all events by state & category
 Params:
+
 Key:category , Value:"Festivals,Shows"
+
 Key:state , Value:"israel"
+
 Response sample:
 ```
 [
@@ -148,10 +197,12 @@ Response sample:
   }
 ]
 ```
+Parse categories list on bad format cause error response
+
 Error response sample:
 ```
 {
-	error: "No such student!"
+	error: "Unable to parse categories on request format"
 }
 ```
 
