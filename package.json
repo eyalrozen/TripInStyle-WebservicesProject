@@ -1,17 +1,18 @@
 {
-  "name": "tripinstyle",
+  "name": "webservice",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "author": "eyalLaura",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
-    "mongoose": "^4.4.20"
+    "mongoose": "^4.4.20",
+    "password-generator": "^2.0.2"
   }
 }

@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.set('port',port);
 app.use('/',express.static('./public'));
+app.use('/gplus',express.static('./gplus'));
 app.use(function(req,res,next){
 	res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -34,5 +35,46 @@ app.post('/getEventsByState',function(req,res)
 	TISController.getEventsByState(req,res,cat,state);
 });
 	
+app.post('/addUser',function(req,res)
+{
+	var username = req.body.username;
+	var avatar = req.body.avatar;
+	TISController.addNewUser(req,res,username,avatar);
+});
+
+app.post('/getUserFavorites',function(req,res)
+{
+	var userID = req.body.username;
+	TISController.getUserFavorites(req,res,userID);
+
+});
+
+app.post('/getUserPurchases',function(req,res)
+{
+	var userID = req.body.username;
+	TISController.getUserPurchases(req,res,userID);
+
+});
+
+app.post('/addPurchase',function(req,res)
+{
+	var userID = req.body.username;
+	var eventID = req.body.event_id;
+	var ticketsAmount = req.body.tickets_amount;
+	TISController.addPurchase(req,res,userID,eventID,ticketsAmount);
+
+});
+app.post('/validateUser',function(req,res)
+{
+	var username = req.body.username;
+	TISController.validateUser(req,res,username);
+});
+
+app.post('/updateUserFavorites',function(req,res)
+{
+	var username = req.body.username;
+	var eventID = req.body.event_id;
+	TISController.updateUserFavorites(req,res,username,eventID);
+});
 app.listen(port);
 console.log("listening on port "+port);
