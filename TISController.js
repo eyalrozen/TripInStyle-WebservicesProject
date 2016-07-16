@@ -267,7 +267,17 @@ function CreateUser(req,res,username,avatar)
 		}
 		else{
 			console.log("User "+username+" Added succesfully");
-			res.json({'status':'success'});
+			User.findOne().where('username',username).exec(function(err,data){
+				if(err)
+				{
+					console.log("Error:"+err);
+					res.json({'error':err});
+				}
+				else
+				{
+					res.json(data);
+				}
+			});
 		}
 	});	
 }
