@@ -90,9 +90,18 @@ exports.getUserFavorites = function(req,res,userID)
 {
 	console.log("Get user "+userID+ " Favorites");
 	User.findOne().where('username',userID).exec(function(err,data){
-		//console.log(data)
-		res.json(data.favorites);
-		return;
+		if(data.favorites.length > 0)
+		{
+			Event.find({'_id':{$in :data.favorites}}).
+			exec(function(err,docs){
+				res.json(docs);
+				return;
+			});
+		}
+		else{
+			res.json(data.favorites);
+			return;
+		}
 	});
 }
 
@@ -226,26 +235,7 @@ exports.addNewUser = function(req,res,username,avatar)
 {
 	console.log("Creating user :"+username);
 	CreateUser(req,res,username,avatar);
-	/*var newUser1 = new User({
-		'username':username,
-		'password': generatePassword(),
-		'favorites': [],
-		'purchases':[],
-		'avatar':avatar
-	});
 
-	newUser1.save(function(err,result)
-	{
-		if(err)
-		{
-			console.log("Error:"+err);
-			res.json({'error':err});
-		}
-		else{
-			console.log("User "+username+" Added succesfully");
-			res.json({'status':'success'});
-		}
-	});*/
 }
 
 function CreateUser(req,res,username,avatar)
