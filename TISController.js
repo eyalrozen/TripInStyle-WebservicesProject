@@ -54,6 +54,23 @@ exports.getEventsByCategory = function(req,res,cat)
 	});
 }
 
+exports.getEventByID = function(req,res,eventID)
+{
+	Event.findOne().where('_id',eventID).exec(function(err,data)
+	{
+		if(err)
+		{
+			res.json({"status":"error"});
+			return;
+		}
+		else
+		{
+			res.json(data);
+			return;
+		}
+	});
+}
+
 
 exports.getEventsByState = function(req,res,cat,state)
 {

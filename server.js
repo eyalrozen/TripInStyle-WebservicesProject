@@ -34,6 +34,12 @@ app.post('/getEventsByState',function(req,res)
 	var state = req.body.state.toLowerCase();
 	TISController.getEventsByState(req,res,cat,state);
 });
+
+app.post('/getEventByID',function(req,res)
+{
+	var eventID = req.body.event_id;
+	TISController.getEventByID(req,res,eventID);
+});
 	
 app.post('/addUser',function(req,res)
 {
