@@ -67,7 +67,8 @@ app.post('/addPurchase',function(req,res)
 app.post('/validateUser',function(req,res)
 {
 	var username = req.body.username;
-	TISController.validateUser(req,res,username);
+	var avatar = req.body.avatar;
+	TISController.validateUser(req,res,username,avatar);
 });
 
 app.post('/updateUserFavorites',function(req,res)

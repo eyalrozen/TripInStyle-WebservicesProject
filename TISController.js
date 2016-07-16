@@ -225,6 +225,31 @@ function ticketsCompare(eventTickets,userTickets)
 exports.addNewUser = function(req,res,username,avatar)
 {
 	console.log("Creating user :"+username);
+	CreateUser(req,res,username,avatar);
+	/*var newUser1 = new User({
+		'username':username,
+		'password': generatePassword(),
+		'favorites': [],
+		'purchases':[],
+		'avatar':avatar
+	});
+
+	newUser1.save(function(err,result)
+	{
+		if(err)
+		{
+			console.log("Error:"+err);
+			res.json({'error':err});
+		}
+		else{
+			console.log("User "+username+" Added succesfully");
+			res.json({'status':'success'});
+		}
+	});*/
+}
+
+function CreateUser(req,res,username,avatar)
+{
 	var newUser1 = new User({
 		'username':username,
 		'password': generatePassword(),
@@ -244,10 +269,10 @@ exports.addNewUser = function(req,res,username,avatar)
 			console.log("User "+username+" Added succesfully");
 			res.json({'status':'success'});
 		}
-	});
+	});	
 }
 
-exports.validateUser = function(req,res,username)
+exports.validateUser = function(req,res,username,avatar)
 {
 	console.log("validate user "+username);
 	User.findOne().where('username',username).exec(function(err,data){
@@ -257,7 +282,16 @@ exports.validateUser = function(req,res,username)
 			res.json({'error':err});
 		}
 		else
-			res.json(data);
+		{
+			if(data !=null)
+			{
+				res.json(data);
+			}
+			else
+			{
+				CreateUser(req,res,username,avatar);
+			}
+		}
 	});
 }
 
