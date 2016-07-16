@@ -5,6 +5,8 @@ var Event = require('./event');
 var User = require('./user');
 var generatePassword = require('password-generator');
 
+
+//Return list with all the categories
 exports.getCategories = function(req,res)
 {
 	console.log("Get data");
@@ -15,6 +17,7 @@ exports.getCategories = function(req,res)
 	});
 }
 
+//Return all the events in db
 exports.getAllEvents = function(req,res)
 {
 	console.log("Get All events");
@@ -25,6 +28,7 @@ exports.getAllEvents = function(req,res)
 	});
 }
 
+//Return list of all states
 exports.getAllStates = function(req,res)
 {
 	console.log("Get All states");
@@ -35,6 +39,7 @@ exports.getAllStates = function(req,res)
 	});
 }
 
+//Return events filtered by category
 exports.getEventsByCategory = function(req,res,cat)
 {
 	console.log("Get categories "+cat );
@@ -54,6 +59,7 @@ exports.getEventsByCategory = function(req,res,cat)
 	});
 }
 
+//Return specific event with selected id
 exports.getEventByID = function(req,res,eventID)
 {
 	Event.findOne().where('_id',eventID).exec(function(err,data)
@@ -71,7 +77,7 @@ exports.getEventByID = function(req,res,eventID)
 	});
 }
 
-
+//Get events by specific state
 exports.getEventsByState = function(req,res,cat,state)
 {
 	try
@@ -93,6 +99,7 @@ exports.getEventsByState = function(req,res,cat,state)
 	});
 }
 
+//Lowercase all strings in array
 function ArrayToLowerCase(array)
 {
 	lowerCaseArray =[];
@@ -103,6 +110,7 @@ function ArrayToLowerCase(array)
 	return lowerCaseArray;
 }
 
+//Return user favorits events
 exports.getUserFavorites = function(req,res,userID)
 {
 	console.log("Get user "+userID+ " Favorites");
@@ -122,6 +130,7 @@ exports.getUserFavorites = function(req,res,userID)
 	});
 }
 
+//Add purchased ticket to user - make sure that user isn't owned the tickets yet
 exports.addPurchase = function(req,res,userID,eventID,ticketsAmount)
 {
 	console.log("Add purchase to user "+userID+" from event "+eventID+" total tickets:"+ticketsAmount);
@@ -203,6 +212,7 @@ exports.addPurchase = function(req,res,userID,eventID,ticketsAmount)
 	});
 }
 
+//Get list of purchases tickets for specific user
 exports.getUserPurchases = function(req,res,userID)
 {
 	console.log("Get user "+userID+ " Purchases");
@@ -236,6 +246,7 @@ exports.getUserPurchases = function(req,res,userID)
 	});
 }
 
+//Compare 2 tickets array's
 function ticketsCompare(eventTickets,userTickets)
 {
 	var ticketsArray =[];
@@ -248,6 +259,8 @@ function ticketsCompare(eventTickets,userTickets)
 	});
 	return ticketsArray;
 }
+
+//Return new user
 exports.addNewUser = function(req,res,username,avatar)
 {
 	console.log("Creating user :"+username);
@@ -255,6 +268,7 @@ exports.addNewUser = function(req,res,username,avatar)
 
 }
 
+//Create new user
 function CreateUser(req,res,username,avatar)
 {
 	var newUser1 = new User({
@@ -289,6 +303,7 @@ function CreateUser(req,res,username,avatar)
 	});	
 }
 
+//Validate user info on Login
 exports.validateUser = function(req,res,username,avatar)
 {
 	console.log("validate user "+username);
@@ -312,6 +327,7 @@ exports.validateUser = function(req,res,username,avatar)
 	});
 }
 
+//Update user favorit event
 exports.updateUserFavorites = function(req,res,username,eventID)
 {
 	console.log("Updating user "+username+" event "+eventID);
