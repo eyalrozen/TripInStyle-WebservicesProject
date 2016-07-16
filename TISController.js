@@ -219,30 +219,39 @@ exports.getUserPurchases = function(req,res,userID)
 	User.findOne().where('username',userID).exec(function(err,data){
 		var result = '{"purchases":[';
 		var ticketsArray = data.purchases;
-		var eventsArray = [];
-		ticketsArray.forEach(function(purchase,index)
+		if(ticketsArray.length == 0)
 		{
-			var eventID = purchase.event_id;
-			var tickets_id_array = purchase.tickets_id;
-			Event.findOne().where('_id',eventID).exec(function(err,data)
+			result+="]}";
+			res.json(JSON.parse(result));
+			return;
+		}
+		else
+		{
+			var eventsArray = [];
+			ticketsArray.forEach(function(purchase,index)
 			{
-				var eventInfo = {'title':data.title,'city':data.city,'place':data.place,
-				'startDate':data.startDate,'endDate':data.endDate,'startTime':data.startTime,'endTime':data.endTime,
-				'image':data.image,'tickets':ticketsCompare(data.tickets,tickets_id_array)};
-				var stringJson = JSON.stringify(eventInfo);
-				result += stringJson;
-				if (index < ticketsArray.length - 1)
+				var eventID = purchase.event_id;
+				var tickets_id_array = purchase.tickets_id;
+				Event.findOne().where('_id',eventID).exec(function(err,data)
 				{
-					result+=",";
-				}
-				else
-				{
-					result+="]}";
-					res.json(JSON.parse(result));
-					return;
-				}
+					var eventInfo = {'title':data.title,'city':data.city,'place':data.place,
+					'startDate':data.startDate,'endDate':data.endDate,'startTime':data.startTime,'endTime':data.endTime,
+					'image':data.image,'tickets':ticketsCompare(data.tickets,tickets_id_array)};
+					var stringJson = JSON.stringify(eventInfo);
+					result += stringJson;
+					if (index < ticketsArray.length - 1)
+					{
+						result+=",";
+					}
+					else
+					{
+						result+="]}";
+						res.json(JSON.parse(result));
+						return;
+					}
+				});
 			});
-		});
+		}
 	});
 }
 
