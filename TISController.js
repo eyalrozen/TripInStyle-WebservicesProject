@@ -374,3 +374,11 @@ exports.updateUserFavorites = function(req,res,username,eventID)
 		}
 	});
 }
+exports.getAllUsers = function(req,res)
+{
+	console.log("Sending users list");
+	User.find({},'username').exec(function(err,docs){
+		res.json(docs);
+		return;
+	});
+}

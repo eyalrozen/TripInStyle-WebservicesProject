@@ -21,6 +21,8 @@ app.use(function(req,res,next){
 app.get('/getAllCategories',TISController.getCategories);
 app.get('/getAllEvents',TISController.getAllEvents);
 app.get('/getAllStates',TISController.getAllStates);
+app.get('/getAllUsers',TISController.getAllUsers);
+app.get('/getLikesPerCategoryAnalytics',TISController.getLikesPerCategoryAnalytics);
 
 app.post('/getEventsByCategory',function(req,res)
 {
@@ -83,5 +85,7 @@ app.post('/updateUserFavorites',function(req,res)
 	var eventID = req.body.event_id;
 	TISController.updateUserFavorites(req,res,username,eventID);
 });
+
+
 app.listen(port);
 console.log("listening on port "+port);
