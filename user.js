@@ -4,6 +4,7 @@ var schema = mongoose.Schema;
 var userSchema = new schema({
 	username : {type:String },
 	password : {type:String },
+	nickname : {type:String},
 	avatar : {type:String},
 	favorites : [],
 	purchases : []
