@@ -399,8 +399,9 @@ function ChangeLikesInAnalytics(bIncrease, sCategory)
 	{
 		var infoArray = data.info;
 		//console.log(infoArray);
+
 		infoArray.forEach(function(cat,index){
-			if(cat.category == sCategory) {
+			if(cat.category.toLowerCase() == sCategory) {
 				if(bIncrease)
 				{
 					cat.likes++;
