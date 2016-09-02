@@ -3,6 +3,7 @@ var Category = require('./category');
 var State = require('./state');
 var Event = require('./event');
 var User = require('./user');
+var Analytic = require('./analytics.js');
 var generatePassword = require('password-generator');
 
 
@@ -380,5 +381,18 @@ exports.getAllUsers = function(req,res)
 	User.find({},'username').exec(function(err,docs){
 		res.json(docs);
 		return;
+	});
+}
+
+exports.getLikesCategory = function(req,res)
+{
+	Analytic.findOne().where("topic","likes-category").exec(function(err,data)
+	{
+		if(err)
+			res.json(err);
+		else
+		{
+			res.json(data);
+		}
 	});
 }
