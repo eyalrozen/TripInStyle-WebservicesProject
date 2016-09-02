@@ -75,15 +75,17 @@ app.post('/addPurchase',function(req,res)
 app.post('/validateUser',function(req,res)
 {
 	var username = req.body.username;
+	var nickname = req.body.nickname;
 	var avatar = req.body.avatar;
-	TISController.validateUser(req,res,username,avatar);
+	TISController.validateUser(req,res,username,,nickname,avatar);
 });
 
 app.post('/updateUserFavorites',function(req,res)
 {
 	var username = req.body.username;
 	var eventID = req.body.event_id;
-	TISController.updateUserFavorites(req,res,username,eventID);
+	var eventCategory = req.body.event_category;
+	TISController.updateUserFavorites(req,res,username,eventID,eventCategory);
 });
 
 
