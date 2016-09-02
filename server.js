@@ -22,7 +22,6 @@ app.get('/getAllCategories',TISController.getCategories);
 app.get('/getAllEvents',TISController.getAllEvents);
 app.get('/getAllStates',TISController.getAllStates);
 app.get('/getAllUsers',TISController.getAllUsers);
-app.get('/getLikesPerCategoryAnalytics',TISController.getLikesPerCategoryAnalytics);
 
 app.post('/getEventsByCategory',function(req,res)
 {
