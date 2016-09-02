@@ -387,7 +387,7 @@ exports.updateUserFavorites = function(req,res,username,eventID,eventCategory)
 exports.getAllUsers = function(req,res)
 {
 	console.log("Sending users list");
-	User.find({},'username').exec(function(err,docs){
+	User.find({},'username nickname').exec(function(err,docs){
 		res.json(docs);
 		return;
 	});

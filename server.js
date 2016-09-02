@@ -77,7 +77,7 @@ app.post('/validateUser',function(req,res)
 	var username = req.body.username;
 	var nickname = req.body.nickname;
 	var avatar = req.body.avatar;
-	TISController.validateUser(req,res,username,,nickname,avatar);
+	TISController.validateUser(req,res,username,nickname,avatar);
 });
 
 app.post('/updateUserFavorites',function(req,res)
