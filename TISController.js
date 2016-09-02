@@ -271,19 +271,20 @@ function ticketsCompare(eventTickets,userTickets)
 }
 
 //Return new user
-exports.addNewUser = function(req,res,username,avatar)
+exports.addNewUser = function(req,res,username,nickname,avatar)
 {
 	console.log("Creating user :"+username);
-	CreateUser(req,res,username,avatar);
+	CreateUser(req,res,username,nickname,avatar);
 
 }
 
 //Create new user
-function CreateUser(req,res,username,avatar)
+function CreateUser(req,res,username,nickname,avatar)
 {
 	var newUser1 = new User({
 		'username':username,
 		'password': generatePassword(),
+		'nickname' : nickname,
 		'favorites': [],
 		'purchases':[],
 		'avatar':avatar
@@ -314,7 +315,7 @@ function CreateUser(req,res,username,avatar)
 }
 
 //Validate user info on Login
-exports.validateUser = function(req,res,username,avatar)
+exports.validateUser = function(req,res,username,nickname,avatar)
 {
 	console.log("validate user "+username);
 	User.findOne().where('username',username).exec(function(err,data){
@@ -331,14 +332,14 @@ exports.validateUser = function(req,res,username,avatar)
 			}
 			else
 			{
-				CreateUser(req,res,username,avatar);
+				CreateUser(req,res,username,nickname,avatar);
 			}
 		}
 	});
 }
 
 //Update user favorit event
-exports.updateUserFavorites = function(req,res,username,eventID)
+exports.updateUserFavorites = function(req,res,username,eventID,eventCategory)
 {
 	console.log("Updating user "+username+" event "+eventID);
 	User.findOne().where('username',username).exec(function(err,doc){
@@ -349,6 +350,7 @@ exports.updateUserFavorites = function(req,res,username,eventID)
 		}
 		else
 		{
+			console.log("Found user, favorites: "+doc.favorites);
 			var favoritesArray = doc.favorites;
 			if(favoritesArray.indexOf(eventID) > -1)
 			{
@@ -358,7 +360,10 @@ exports.updateUserFavorites = function(req,res,username,eventID)
 					if(err)
 						res.json({"error":err});
 					else
+					{
+						ChangeLikesInAnalytics(false,eventCategory);
 						res.json({"status":"success"});
+					}
 				});
 			}
 			else
@@ -369,18 +374,79 @@ exports.updateUserFavorites = function(req,res,username,eventID)
 					if(err)
 						res.json({"error":err});
 					else
+					{
+						ChangeLikesInAnalytics(true,eventCategory);
 						res.json({"status":"success"});
+					}
 				});
 			}
 		}
 	});
 }
+
 exports.getAllUsers = function(req,res)
 {
 	console.log("Sending users list");
 	User.find({},'username').exec(function(err,docs){
 		res.json(docs);
 		return;
+	});
+}
+
+function ChangeLikesInAnalytics(bIncrease, sCategory)
+{
+	Analytic.findOne().where("topic","likes-category").exec(function(err,data)
+	{
+		var infoArray = data.info;
+		//console.log(infoArray);
+		infoArray.forEach(function(cat,index){
+			if(cat.category == sCategory) {
+				if(bIncrease)
+				{
+					cat.likes++;
+				}
+				else
+				{
+					cat.likes--;
+				}
+				data.info = infoArray;
+				var query = data.update({'info':infoArray});
+				query.exec(function(err,result)
+				{
+					if(err)
+						console.log(err);
+					else
+					{
+						console.log("Analytics changed : "+sCategory+" has "+cat.likes+" likes");
+					}
+				});
+			}
+		});
+	});
+}
+
+function ChangeCategoryByDatesAnalytics(cDate)
+{
+	Analytic.findOne().where("topic","events-dates").exec(function(err,data)
+	{
+		var infoArray = data.info;
+		//console.log(infoArray);
+		infoArray.forEach(function(date){
+			if(date.month == cDate) {
+				date.events++;
+				data.info = infoArray;
+				var query = data.update({'info':infoArray});
+				query.exec(function(err,result)
+				{
+					if(err)
+						console.log(err);
+					else
+					{
+						console.log("Analytics changed : "+sCategory+" has "+cat.likes+" likes");
+					}
+				});
+			}
+		});
 	});
 }
 
@@ -396,3 +462,6 @@ exports.getLikesCategory = function(req,res)
 		}
 	});
 }
+
+
+		
