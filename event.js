@@ -4,6 +4,7 @@ var schema = mongoose.Schema;
 var eventSchema = new schema({
 	id : {type:String, index:1, required:true, unique:true},
 	title: {type:String,required:true},
+	category :{type:String},
 	description: {type:String },
 	state: {type:String},
 	city: {type:String },

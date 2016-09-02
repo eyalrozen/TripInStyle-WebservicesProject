@@ -235,7 +235,7 @@ exports.getUserPurchases = function(req,res,userID)
 				var tickets_id_array = purchase.tickets_id;
 				Event.findOne().where('_id',eventID).exec(function(err,data)
 				{
-					var eventInfo = {'title':data.title,'city':data.city,'place':data.place,
+					var eventInfo = {'category':data.category,'title':data.title,'city':data.city,'place':data.place,
 					'startDate':data.startDate,'endDate':data.endDate,'startTime':data.startTime,'endTime':data.endTime,
 					'image':data.image,'tickets':ticketsCompare(data.tickets,tickets_id_array)};
 					var stringJson = JSON.stringify(eventInfo);
