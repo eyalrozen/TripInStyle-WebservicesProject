@@ -84,8 +84,7 @@ app.post('/updateUserFavorites',function(req,res)
 {
 	var username = req.body.username;
 	var eventID = req.body.event_id;
-	var eventCategory = req.body.event_category;
-	TISController.updateUserFavorites(req,res,username,eventID,eventCategory);
+	TISController.updateUserFavorites(req,res,username,eventID);
 });
 
 

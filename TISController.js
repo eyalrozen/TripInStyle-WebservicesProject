@@ -339,7 +339,7 @@ exports.validateUser = function(req,res,username,nickname,avatar)
 }
 
 //Update user favorit event
-exports.updateUserFavorites = function(req,res,username,eventID,eventCategory)
+exports.updateUserFavorites = function(req,res,username,eventID)
 {
 	console.log("Updating user "+username+" event "+eventID);
 	User.findOne().where('username',username).exec(function(err,doc){
@@ -361,7 +361,7 @@ exports.updateUserFavorites = function(req,res,username,eventID,eventCategory)
 						res.json({"error":err});
 					else
 					{
-						ChangeLikesInAnalytics(false,eventCategory);
+						ChangeLikesInAnalytics(false,eventID);
 						res.json({"status":"success"});
 					}
 				});
@@ -375,7 +375,7 @@ exports.updateUserFavorites = function(req,res,username,eventID,eventCategory)
 						res.json({"error":err});
 					else
 					{
-						ChangeLikesInAnalytics(true,eventCategory);
+						ChangeLikesInAnalytics(true,eventID);
 						res.json({"status":"success"});
 					}
 				});
@@ -393,37 +393,41 @@ exports.getAllUsers = function(req,res)
 	});
 }
 
-function ChangeLikesInAnalytics(bIncrease, sCategory)
+function ChangeLikesInAnalytics(bIncrease, eventId)
 {
-	Analytic.findOne().where("topic","likes-category").exec(function(err,data)
-	{
-		var infoArray = data.info;
-		//console.log(infoArray);
+	Event.find({"_id":eventId},'category').exec(function(err,event){
+		var eventCategory = event[0].category;
+		Analytic.findOne().where("topic","likes-category").exec(function(err,data)
+		{
+			var infoArray = data.info;
+			//console.log(infoArray);
 
-		infoArray.forEach(function(cat,index){
-			if(cat.category.toLowerCase() == sCategory) {
-				if(bIncrease)
-				{
-					cat.likes++;
-				}
-				else
-				{
-					cat.likes--;
-				}
-				data.info = infoArray;
-				var query = data.update({'info':infoArray});
-				query.exec(function(err,result)
-				{
-					if(err)
-						console.log(err);
+			infoArray.forEach(function(cat,index){
+				if(cat.category.toLowerCase() == eventCategory) {
+					if(bIncrease)
+					{
+						cat.likes++;
+					}
 					else
 					{
-						console.log("Analytics changed : "+sCategory+" has "+cat.likes+" likes");
+						cat.likes--;
 					}
-				});
-			}
+					data.info = infoArray;
+					var query = data.update({'info':infoArray});
+					query.exec(function(err,result)
+					{
+						if(err)
+							console.log(err);
+						else
+						{
+							console.log("Analytics changed : "+eventCategory+" has "+cat.likes+" likes");
+						}
+					});
+				}
+			});
 		});
 	});
+	
 }
 
 function ChangeCategoryByDatesAnalytics(cDate)
