@@ -95,6 +95,7 @@ exports.getEventsByState = function(req,res,cat,state)
 		'state': state,
 		'category':{$in :categoryArray}}).
 	exec(function(err,docs){
+		UpdateStateSearchData(state,categoryArray);
 		res.json(docs);
 		return;
 	});
@@ -427,7 +428,6 @@ function ChangeLikesInAnalytics(bIncrease, eventId)
 			});
 		});
 	});
-	
 }
 
 function ChangeCategoryByDatesAnalytics(cDate)
@@ -455,6 +455,38 @@ function ChangeCategoryByDatesAnalytics(cDate)
 	});
 }
 
+function UpdateStateSearchData(state,categoryArray)
+{
+	Analytic.findOne().where("topic","state-search").exec(function(err,data)
+	{
+		var infoArray = data.info;
+		infoArray.forEach(function(info){
+			if(info.state == state) {
+				info.searchAmount.forEach(function(cat)
+				{
+					if(categoryArray.indexOf(cat.category) > -1)
+					{
+						console.log("Found category:"+cat.category);
+						cat.amount++;
+					}
+						
+				});
+				data.info = infoArray;
+				var query = data.update({'info':infoArray});
+				query.exec(function(err,result)
+				{
+					if(err)
+						console.log(err);
+					else
+					{
+						console.log("Analytics changed : "+state+" added searched amount");
+					}
+				});
+			}
+		});
+	});
+}
+
 exports.getLikesCategory = function(req,res)
 {
 	Analytic.findOne().where("topic","likes-category").exec(function(err,data)
@@ -468,5 +500,17 @@ exports.getLikesCategory = function(req,res)
 	});
 }
 
+exports.getStateSearch = function(req,res)
+{
+	Analytic.findOne().where("topic","state-search").exec(function(err,data)
+	{
+		if(err)
+			res.json(err);
+		else
+		{
+			res.json(data);
+		}
+	});
+}
 
 		

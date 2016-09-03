@@ -23,6 +23,7 @@ app.get('/getAllEvents',TISController.getAllEvents);
 app.get('/getAllStates',TISController.getAllStates);
 app.get('/getAllUsers',TISController.getAllUsers);
 app.get('/getLikesCategory',TISController.getLikesCategory);
+app.get('/getStateSearch',TISController.getStateSearch);
 
 app.post('/getEventsByCategory',function(req,res)
 {
