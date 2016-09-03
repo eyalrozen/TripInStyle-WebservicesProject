@@ -542,3 +542,202 @@ Error Response sample:
 ```
 "error":"Error reason"
 ```
+
+
+# TripInStyle Analytics
+###GET METHOD
+Get categories searched in state amount
+
+URL:
+
+https://tripinstyle2016.herokuapp.com/getStateSearch 	get Analytics data of categories search by state
+
+Success Response sample:
+```
+{
+  {
+  "_id": "57cacb27aade986bbcfb4796",
+  "topic": "state-search",
+  "info": [
+    {
+      "searchAmount": [
+        {
+          "amount": 4,
+          "category": "fashion"
+        },
+        {
+          "amount": 4,
+          "category": "shows"
+        },
+        {
+          "amount": 4,
+          "category": "festivals"
+        },
+        {
+          "amount": 4,
+          "category": "sport"
+        },
+        {
+          "amount": 4,
+          "category": "art"
+        }
+      ],
+      "state": "united state"
+    },
+    {
+      "searchAmount": [
+        {
+          "amount": 6,
+          "category": "fashion"
+        },
+        {
+          "amount": 4,
+          "category": "shows"
+        },
+        {
+          "amount": 4,
+          "category": "festivals"
+        },
+        {
+          "amount": 4,
+          "category": "sport"
+        },
+        {
+          "amount": 5,
+          "category": "art"
+        }
+      ],
+      "state": "united kingdom"
+    },
+    
+    {
+      "searchAmount": [
+        {
+          "amount": 4,
+          "category": "fashion"
+        },
+        {
+          "amount": 4,
+          "category": "shows"
+        },
+        {
+          "amount": 4,
+          "category": "festivals"
+        },
+        {
+          "amount": 4,
+          "category": "sport"
+        },
+        {
+          "amount": 4,
+          "category": "art"
+        }
+      ],
+      "state": "japan"
+    },
+    {
+      "searchAmount": [
+        {
+          "amount": 4,
+          "category": "fashion"
+        },
+        {
+          "amount": 4,
+          "category": "shows"
+        },
+        {
+          "amount": 4,
+          "category": "festivals"
+        },
+        {
+          "amount": 4,
+          "category": "sport"
+        },
+        {
+          "amount": 4,
+          "category": "art"
+        }
+      ],
+      "state": "croatia"
+    },
+    {
+      "searchAmount": [
+        {
+          "amount": 4,
+          "category": "fashion"
+        },
+        {
+          "amount": 4,
+          "category": "shows"
+        },
+        {
+          "amount": 4,
+          "category": "festivals"
+        },
+        {
+          "amount": 4,
+          "category": "sport"
+        },
+        {
+          "amount": 4,
+          "category": "art"
+        }
+      ],
+      "state": "united arab emirates"
+    }
+  ]
+}
+}
+```
+Error Response sample:
+```
+"error":"Error reason"
+```
+
+Data:
+get Analytics for amount of likes for events per category
+
+URL:
+
+https://tripinstyle2016.herokuapp.com/getLikesCategory 	get Analytics for amount of likes for events per category
+
+Success Response sample:
+```
+{
+  "_id": "57b4a6f5f36d28636a51a783",
+  "topic": "likes-category",
+  "info": [
+    {
+      "likes": 40,
+      "category": "Festivals"
+    },
+    {
+      "likes": 7,
+      "category": "Shows"
+    },
+    {
+      "likes": 17,
+      "category": "Art"
+    },
+    {
+      "likes": 16,
+      "category": "Sport"
+    },
+    {
+      "likes": 40,
+      "category": "Fashion"
+    }
+  ]
+}
+```
+Error Response sample:
+```
+"error":"Error reason"
+```
+
+Data:
+Get each user purchase amount per category
+URL:
+https://tripinstyle2016.herokuapp.com/getAllUsers  //Return list of users
+After getting all users -> run query for each user for request /getUserPurchases //POST - please follow instructions at the top.
+you can filter from the user amount of tickets he has for each event , get the event category.
